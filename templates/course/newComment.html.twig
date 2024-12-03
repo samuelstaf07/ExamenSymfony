@@ -1,0 +1,25 @@
+{% block body %}
+    {% if app.user %}
+        {% if app.user.isdisabled %}
+            <div class="alert alert-danger" role="alert">
+                Votre compte est désactiver.
+            </div>
+        {% elseif not course.hasUserCommented(app.user) %}
+            <div class="col-md-4 offset-md-4">
+                <h2>Nouveau commentaire</h2>
+                {{ form_errors(newCommentForm) }}
+                {{ form_start(newCommentForm) }}
+                {{ form_widget(newCommentForm) }}
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+                {{ form_end(newCommentForm) }}
+            </div>
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                Vous avez déjà commenté ce cours.
+            </div>
+        {% endif %}
+    {% else %}
+        <h3 class="alert alert-danger">Vous devez être connecté pour poster un commentaire.</h3>
+        <a href="{{ path('app_login') }}" class="m-2 btn btn-primary">login</a>
+    {% endif %}
+{% endblock %}

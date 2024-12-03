@@ -1,0 +1,15 @@
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Description</h5>
+                    <p class="card-text">{{ course.fulldescription | capitalize }}</p>
+                    <a href="{{ asset('program/horaire.pdf') }}"  target="_blank">Télécharger le programme</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

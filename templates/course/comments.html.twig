@@ -1,0 +1,28 @@
+{% block body %}
+    {% if comments is not empty %}
+        {% for comment in comments %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-2">
+                        <img src="{{ asset('image/avatar/' ~ comment.user.image) }}" class="img-fluid rounded-start" alt="Photo de profil">
+                    </div>
+                    <div class="col-md-10">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ comment.user.lastname }} {{ comment.user.firstname }}</h5>
+                            <p class="card-text"><small class="text-muted">Posté le {{ comment.createdat|date("m/d/Y") }}</small></p>
+                            <p class="card-text">{{ comment.content }}</p>
+                            <div>
+                                {% for star in 1..comment.rate %}
+                                    <img src="{{ asset('image/icofont/star.svg') }}" alt="etoiles" style="height: 10px;">
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if comments is empty %}
+        <h3>Aucun commentaire</h3>
+    {% endif %}
+{% endblock %}

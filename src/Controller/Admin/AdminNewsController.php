@@ -48,8 +48,8 @@ class AdminNewsController extends AbstractController
         $manager->flush();
         $this->addFlash(
             'success',
-            'La visibilité du cours a bien été changé');
-
+            'La visibilité du cours a bien été changé'
+        );
         return $this->redirectToRoute('app_admin');
     }
 }

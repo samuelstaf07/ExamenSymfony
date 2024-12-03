@@ -14,14 +14,10 @@ class AdminUserController extends AbstractController
     #[Route('/admin/disableUser/{id}', name: 'app_admin_changevisibilityUser')]
     public function changevisibilityUser(EntityManagerInterface $manager, User $user): Response
     {
-        if( (
-                in_array('ROLE_ADMIN', $this->getUser()->getRoles()) &&
-                !in_array('ROLE_SUPER_ADMIN', $this->getUser()->getRoles())
-            )
-            && (
-                in_array('ROLE_SUPER_ADMIN', $user->getRoles()) ||
-                in_array('ROLE_ADMIN', $user->getRoles()))
-            )
+        if((in_array('ROLE_ADMIN', $this->getUser()->getRoles()) &&
+            !in_array('ROLE_SUPER_ADMIN', $this->getUser()->getRoles()))
+            &&(in_array('ROLE_SUPER_ADMIN', $user->getRoles()) ||
+               in_array('ROLE_ADMIN', $user->getRoles())))
         {
             $this->addFlash(
                 'danger',

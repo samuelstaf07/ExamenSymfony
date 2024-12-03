@@ -50,7 +50,10 @@ class AdminController extends AbstractController
             $manager->persist($course);
             $manager->flush();
 
-            $this->addFlash('success','Le commentaire a bien été ajouté');
+            $this->addFlash(
+                'success',
+                'Le commentaire a bien été ajouté'
+            );
             return $this->redirectToRoute('app_admin');
         }
 
@@ -65,7 +68,10 @@ class AdminController extends AbstractController
             $manager->persist($post);
             $manager->flush();
 
-            $this->addFlash('success', 'Le post a bien été ajouté');
+            $this->addFlash(
+                'success',
+                'Le post a bien été ajouté'
+            );
             return $this->redirectToRoute('app_admin');
         }
 

@@ -43,72 +43,13 @@
             </div>
         </div>
         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">Description</h5>
-                                <p class="card-text">{{ course.fulldescription | capitalize }}</p>
-                                <a href="{{ asset('program/horaire.pdf') }}"  target="_blank">Télécharger le programme</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% include '/course/details.html.twig' %}
         </div>
         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-            {% if comments is not empty %}
-                {% for comment in comments %}
-                    <div class="card mb-3">
-                        <div class="row g-0">
-                            <div class="col-md-2">
-                                <img src="{{ asset('image/avatar/' ~ comment.user.image) }}" class="img-fluid rounded-start" alt="Photo de profil">
-                            </div>
-                            <div class="col-md-10">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ comment.user.lastname }} {{ comment.user.firstname }}</h5>
-                                    <p class="card-text"><small class="text-muted">Posté le {{ comment.createdat|date("m/d/Y") }}</small></p>
-                                    <p class="card-text">{{ comment.content }}</p>
-                                    <div>
-                                        {% for star in 1..comment.rate %}
-                                            <img src="{{ asset('image/icofont/star.svg') }}" alt="etoiles" style="height: 10px;">
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endif %}
-            {% if comments is empty %}
-                <h3>Aucun commentaire</h3>
-            {% endif %}
+            {% include '/course/comments.html.twig' %}
         </div>
         <div class="tab-pane fade" id="nav-newcomment" role="tabpanel" aria-labelledby="nav-newcomment-tab">
-            {% if app.user %}
-                {% if app.user.isdisabled %}
-                    <div class="alert alert-danger" role="alert">
-                        Votre compte est désactiver.
-                    </div>
-                {% elseif not course.hasUserCommented(app.user) %}
-                    <div class="col-md-4 offset-md-4">
-                        <h2>Nouveau commentaire</h2>
-                        {{ form_errors(newCommentForm) }}
-                        {{ form_start(newCommentForm) }}
-                        {{ form_widget(newCommentForm) }}
-                        <button type="submit" class="btn btn-primary">Envoyer</button>
-                        {{ form_end(newCommentForm) }}
-                    </div>
-                {% else %}
-                    <div class="alert alert-danger" role="alert">
-                        Vous avez déjà commenté ce cours.
-                    </div>
-                {% endif %}
-            {% else %}
-                <h3 class="alert alert-danger">Vous devez être connecté pour poster un commentaire.</h3>
-                <a href="{{ path('app_login') }}" class="m-2 btn btn-primary">login</a>
-            {% endif %}
+            {% include '/course/newComment.html.twig' %}
         </div>
     </div>
 {% endblock %}
