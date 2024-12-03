@@ -1,0 +1,106 @@
+{% block body %}
+    <h3>Tous les utilisateurs :</h3>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>firstname</th>
+                <th>lastname</th>
+                <th>createdat</th>
+                <th>role</th>
+                <th>password</th>
+                <th>est désactivé</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td class="align-middle">{{ user.id }}</td>
+                        <td class="align-middle">{{ user.firstname }}</td>
+                        <td class="align-middle">{{ user.lastname }}</td>
+                        <td class="align-middle">{{ user.createdat|date("d/m/Y") }}</td>
+                        <td class="align-middle">{{ user.roles|last|json_encode }}</td>
+                        <td class="align-middle">{{ user.email }}</td>
+                        <td class="text-center align-middle">{% if user.isdisabled %} oui {% else %} non {% endif %}</td>
+                        <td class="text-center d-flex align-middle">
+                            {% if "ROLE_SUPER_ADMIN" not in user.roles %}
+                                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                    {% if 'ROLE_ADMIN' not in user.roles %}
+                                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#userUp-{{ user.id }}">
+                                            <img src="{{ asset('icon/arrow-up.svg') }}" alt="Promouvoir" style="height: 20px">
+                                        </button>
+                                    {% elseif 'ROLE_ADMIN' in user.roles %}
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userDown-{{ user.id }}">
+                                            <img src="{{ asset('icon/arrow-down.svg') }}" alt="Retrograder" style="height: 20px">
+                                        </button>
+                                    {% endif %}
+                                {% endif %}
+
+                                {% if 'ROLE_ADMIN' not in user.roles or is_granted('ROLE_SUPER_ADMIN')%}
+                                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#userAct-{{ user.id }}">
+                                        <img src="{{ asset('icon/visibility.svg') }}" alt="Changer la visibilité" style="height: 20px">
+                                    </button>
+                                {% else %}
+                                    <div class="btn bg-dark-subtle disabled">
+                                        <img src="{{ asset('icon/visibility.svg') }}" alt="Changer la visibilité" style="height: 20px">
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <div class="btn btn-dark disabled" style="width: 100%">X</div>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <div class="modal fade" id="userUp-{{ user.id }}" tabindex="-1" aria-labelledby="#userUp-{{ user.id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="userUp-{{ user.id }}">
+                                        Voulez-vous promouvoir "{{ user.firstname }} {{ user.lastname }}" ?
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="{{ path('app_super_admin_promote', {id: user.id}) }}" class="btn btn-success">Promouvoir</a>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="userDown-{{ user.id }}" tabindex="-1" aria-labelledby="#userDown-{{ user.id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="userUp-{{ user.id }}">
+                                        Voulez-vous rétrograder "{{ user.firstname }} {{ user.lastname }}" ?
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="{{ path('app_super_admin_demote', {id: user.id}) }}" class="btn btn-warning">Retrograder</a>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="userAct-{{ user.id }}" tabindex="-1" aria-labelledby="#userAct-{{ user.id }}" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="userUp-{{ user.id }}">
+                                        Voulez-vous {% if user.isDisabled %}activer{% else %}désactiver{% endif %} "{{ user.firstname }} {{ user.lastname }}" ?
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <a href="{{ path('app_admin_changevisibilityUser', {id: user.id}) }}" class="btn btn-{% if user.isDisabled %}success{% else %}warning{% endif %}">{% if user.isDisabled %}Activer{% else %}Désactiver{% endif %}</a>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

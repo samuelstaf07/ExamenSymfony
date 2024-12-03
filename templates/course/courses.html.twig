@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les cours{% endblock %}
+
+{% block body %}
+    <h1>Tous les cours</h1>
+    <div class="row d-flex justify-content-center">
+        {% for course in courses %}<div class="card p-3 m-3" style="width:30%">
+            <img class="card-img-top" src="{{ asset('image/course/' ~ course.imagename) }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ course.name | capitalize }}.</h5>
+                <p class="card-text">{{ course.smalldescription | capitalize }}</p>
+                <p class="card-text"><small class="text-muted">{{ course.createdat|date("d/m/Y") }}</small></p>
+                <a href="{{ path('app_course', {slug:course.slug}) }}" class="app_admin_newCourse">Voir plus</a>
+            </div></div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ course.name | capitalize }}{% endblock %}
+
+{% block body %}
+    <h2>{{ course.name | capitalize }}</h2>
+    {% include 'admin/partials/flash.html.twig' %}
+    <nav>
+        <div class="nav nav-tabs mb-4" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Profile</button>
+            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Détail</button>
+            <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Commentaires</button>
+            <button class="nav-link" id="nav-newcomment-tab" data-bs-toggle="tab" data-bs-target="#nav-newcomment" type="button" role="tab" aria-controls="nav-newcomment" aria-selected="false">Poster un commentaire</button>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{{ asset('image/course/' ~ course.imagename) }}" class="img-fluid rounded" alt="course.name">
+                </div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ course.name | capitalize }}</h5>
+                            <p class="card-text">{{ course.smalldescription | capitalize }}</p>
+                            <h6 class="card-subtitle mb-2 text-muted">Informations supplémentaires</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Prix: {{ course.price }}€</li>
+                                <li class="list-group-item">Durée: {{ course.duration }}</li>
+                                <li class="list-group-item">Catégorie : {{ course.categoryid.name }}</li>
+                                <li class="list-group-item">Date : {{ course.createdat|date("m/d/Y", "Europe/Paris") }}</li>
+                                <li class="list-group-item">
+                                    Niveau :
+                                    <div class="myTooltip btn btn-secondary">{{ course.levelid.prerequiste }}
+                                        <span class="myTooltiptext">{{ course.levelid.name }}</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Description</h5>
+                                <p class="card-text">{{ course.fulldescription | capitalize }}</p>
+                                <a href="{{ asset('program/horaire.pdf') }}"  target="_blank">Télécharger le programme</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+            {% if comments is not empty %}
+                {% for comment in comments %}
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-2">
+                                <img src="{{ asset('image/avatar/' ~ comment.user.image) }}" class="img-fluid rounded-start" alt="Photo de profil">
+                            </div>
+                            <div class="col-md-10">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ comment.user.lastname }} {{ comment.user.firstname }}</h5>
+                                    <p class="card-text"><small class="text-muted">Posté le {{ comment.createdat|date("m/d/Y") }}</small></p>
+                                    <p class="card-text">{{ comment.content }}</p>
+                                    <div>
+                                        {% for star in 1..comment.rate %}
+                                            <img src="{{ asset('image/icofont/star.svg') }}" alt="etoiles" style="height: 10px;">
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% if comments is empty %}
+                <h3>Aucun commentaire</h3>
+            {% endif %}
+        </div>
+        <div class="tab-pane fade" id="nav-newcomment" role="tabpanel" aria-labelledby="nav-newcomment-tab">
+            {% if app.user %}
+                {% if app.user.isdisabled %}
+                    <div class="alert alert-danger" role="alert">
+                        Votre compte est désactiver.
+                    </div>
+                {% elseif not course.hasUserCommented(app.user) %}
+                    <div class="col-md-4 offset-md-4">
+                        <h2>Nouveau commentaire</h2>
+                        {{ form_errors(newCommentForm) }}
+                        {{ form_start(newCommentForm) }}
+                        {{ form_widget(newCommentForm) }}
+                        <button type="submit" class="btn btn-primary">Envoyer</button>
+                        {{ form_end(newCommentForm) }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        Vous avez déjà commenté ce cours.
+                    </div>
+                {% endif %}
+            {% else %}
+                <h3 class="alert alert-danger">Vous devez être connecté pour poster un commentaire.</h3>
+                <a href="{{ path('app_login') }}" class="m-2 btn btn-primary">login</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

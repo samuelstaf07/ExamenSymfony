@@ -1,0 +1,53 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Dashboard Admin{% endblock %}
+
+{% block body %}
+    <h1>Dashboard admin</h1>
+    <div class="d-flex">
+        <div class="accordion accordion-flush mt-5" id="accordionFlushExample" style="width: 20%">
+            <ul class="list-group list-group-flush no-puce" style="width: 250px">
+                <li class="d-flex align-items-center">
+                    <button class="list-group-item flex-grow-1 rounded-2 active" data-bs-toggle="tab" data-bs-target="#nav-course" type="button" role="tab" aria-controls="nav-course" aria-selected="true">Gestion des cours</button>
+                </li>
+                <li class="d-flex align-items-center">
+                    <button class="list-group-item flex-grow-1 rounded-2" data-bs-toggle="tab" data-bs-target="#nav-newCourse" type="button" role="tab" aria-controls="nav-newCourse" aria-selected="true">Ajoutez des cours</button>
+                </li>
+                <li class="d-flex align-items-center">
+                    <button class="list-group-item flex-grow-1 rounded-2" data-bs-toggle="tab" data-bs-target="#nav-users" type="button" role="tab" aria-controls="nav-users" aria-selected="true">Gérer les utilisateurs</button>
+                </li>
+                <li class="d-flex align-items-center">
+                    <button class="list-group-item flex-grow-1 rounded-2" data-bs-toggle="tab" data-bs-target="#nav-comments" type="button" role="tab" aria-controls="nav-comments" aria-selected="true">Gérer les commentaires</button>
+                </li>
+                <li class="d-flex align-items-center">
+                    <button class="list-group-item flex-grow-1 rounded-2" data-bs-toggle="tab" data-bs-target="#nav-news" type="button" role="tab" aria-controls="nav-news" aria-selected="true">Voir les actualités</button>
+                </li>
+                <li class="d-flex align-items-center">
+                    <button class="list-group-item flex-grow-1 rounded-2" data-bs-toggle="tab" data-bs-target="#nav-newPost" type="button" role="tab" aria-controls="nav-newPost" aria-selected="true">Ajouter une actualités</button>
+                </li>
+            </ul>
+        </div>
+        <div class="m-5 w-75">
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="nav-course" role="tabpanel" aria-labelledby="nav-course-tab">
+                    {% include 'admin/admincourses.html.twig' %}
+                </div>
+                <div class="tab-pane fade" id="nav-newCourse" role="tabpanel" aria-labelledby="nav-newCourse-tab">
+                    {% include 'admin/newCourse.html.twig' %}
+                </div>
+                <div class="tab-pane fade" id="nav-users" role="tabpanel" aria-labelledby="nav-users-tab">
+                    {% include 'admin/adminuser.html.twig' %}
+                </div>
+                <div class="tab-pane fade" id="nav-comments" role="tabpanel" aria-labelledby="nav-comments-tab">
+                    {% include 'admin/admincomments.html.twig' %}
+                </div>
+                <div class="tab-pane fade" id="nav-news" role="tabpanel" aria-labelledby="nav-news-tab">
+                    {% include 'admin/adminnews.html.twig' %}
+                </div>
+                <div class="tab-pane fade" id="nav-newPost" role="tabpanel" aria-labelledby="nav-newPost-tab">
+                    {% include 'admin/newPost.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

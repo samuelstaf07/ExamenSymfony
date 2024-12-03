@@ -1,0 +1,13 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Edit: {{ comment.content }}{% endblock %}
+
+{% block body %}
+    <div class="offset-2 form-edit">
+        <h2>Mettre à jour un commentaire</h2>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Ajouter" class="btn btn-primary">
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

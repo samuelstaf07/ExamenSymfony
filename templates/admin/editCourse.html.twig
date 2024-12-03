@@ -1,0 +1,13 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Edit: {{ course.name }}{% endblock %}
+
+{% block body %}
+    <div class="offset-2 form-edit">
+        <h2>Modification de "{{ course.name }}"</h2>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Ajouter" class="btn btn-primary">
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+vich_uploader:
+  db_driver: orm
+
+  mappings:
+    courses:
+      uri_prefix: /image/course
+      upload_destination: '%kernel.project_dir%/assets/image/course'
+      namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+    program:
+      uri_prefix: /program
+      upload_destination: '%kernel.project_dir%/assets/program'
+      namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+    posts:
+      uri_prefix: /image/news
+      upload_destination: '%kernel.project_dir%/assets/image/news'
+      namer: Vich\UploaderBundle\Naming\SmartUniqueNamer

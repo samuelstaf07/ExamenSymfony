@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.name|capitalize }}{% endblock %}
+
+{% block body %}
+        <h2>{{ post.name|capitalize }}</h2>
+        <div class="row">
+            <div class="col-md-4">
+
+                <img src="{{ asset('image/news/' ~ post.image) }}" class="img-fluid rounded" alt="course.name">
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.name | capitalize }}</h5>
+                        <p class="card-text">{{ post.content | capitalize }}</p>
+                    </div>
+                </div>
+                <h6 class="m-2">Posté le {{ post.createdat|date('d-M-Y') }}</h6>
+            </div>
+        </div>
+{% endblock %}

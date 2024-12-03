@@ -1,0 +1,34 @@
+.myTooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.myTooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Positionne le tooltip en dessous de l'élément */
+    left: 50%;
+    margin-left: -60px; /* Centre horizontalement le tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.myTooltip:hover .myTooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.container{
+    margin-top: 50px;
+}
+
+.no-puce{
+    list-style: none;
+}

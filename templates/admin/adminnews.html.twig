@@ -1,0 +1,93 @@
+{% block body %}
+    <h3>Toutes les actualités :</h3>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="text-center">image</th>
+                <th class="text-center">id</th>
+                <th>name</th>
+                <th class="text-center">date</th>
+                <th>content</th>
+                <th class="text-center">Actions</th>
+                <th>is published</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for post in news %}
+            <tr>
+                <td class="text-center">
+                    <img src="{{ asset('image/news/' ~ post.image) }}" alt="photo course" style="height: 40px" class="rounded">
+                </td>
+                <td class="text-center align-middle">{{ post.id }}</td>
+                <td class="align-middle">{{ post.name }}</td>
+                <td class="align-middle">{{ post.createdat|date('d-m-Y') }}</td>
+                <td class="align-middle">{{ post.content|u.truncate(10, '...', true) }}</td>
+                <td style="width: 200px" class="text-center">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#postEdit-{{ post.id }}">
+                        <img src="{{ asset('icon/edit.svg') }}" alt="bouton edit" style="height: 20px;">
+                    </button>
+                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#postDel-{{ post.id }}">
+                        <img src="{{ asset('icon/delete.svg') }}" alt="bouton supprimé" style="height: 20px;">
+                    </button>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#postVisi-{{ post.id }}">
+                        <img src="{{ asset('icon/visibility.svg') }}" alt="bouton visibilité" style="height: 20px;">
+                    </button>
+                </td>
+                <td class="align-middle">{% if post.ispublished %}oui{% else %}non{% endif %}</td>
+            </tr>
+
+            <div class="modal fade" id="postEdit-{{ post.id }}" tabindex="-1" aria-labelledby="#postEdit-{{ post.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="postEdit-{{ post.id }}">
+                                Voulez-vous modifier "{{ post.name }}" ?
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ asset('admin/editPost/' ~ post.id) }}" class="btn btn-info">Modifier</a>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="postDel-{{ post.id }}" tabindex="-1" aria-labelledby="#postDel-{{ post.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="postDel-{{ post.id }}">
+                                Voulez-vous supprimer "{{ post.name }}" ?
+                                <p class="alert alert-warning">Une fois supprimer, il est impossible de le récupérer !</p>
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ asset('admin/delPost/' ~ post.id) }}" class="btn btn-primary">Suprrimer</a>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="postVisi-{{ post.id }}" tabindex="-1" aria-labelledby="#postVisi-{{ post.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="postVisi-{{ post.id }}">
+                                Voulez-vous changer la visibilité de "{{ post.name }}" ?
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ asset('admin/changeVisibPoste/' ~ post.id) }}" class="btn btn-{% if post.ispublished %}danger{% else %}success{% endif %}">
+                                Mettre en {% if post.ispublished %}privé{% else %}publié{% endif %}
+                            </a>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

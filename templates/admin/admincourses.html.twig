@@ -1,0 +1,90 @@
+{% block body %}
+    <table class="table table-striped align-middle">
+        <thead>
+        <tr>
+            <th class="text-center">image</th>
+            <th class="text-center">id</th>
+            <th>category</th>
+            <th>Titre</th>
+            <th>date publication</th>
+            <th class="text-center">Actions</th>
+            <th class="text-center">est visible</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for course in courses %}
+            <tr>
+                <td class="text-center"><img src="{{ asset('image/course/' ~ course.imageName) }}" alt="photo course" style="height: 40px" class="rounded"></td>
+                <td class="text-center">{{ course.id }}</td>
+                <td>{{ course.categoryid.name }}</td>
+                <td>{{ course.name }}</td>
+                <td>{{ course.createdat|date("d/m/Y") }}</td>
+                <td style="width: 200px" class="text-center">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#courseEdit-{{ course.id }}">
+                        <img src="{{ asset('icon/edit.svg') }}" alt="bouton edit" style="height: 20px;">
+                    </button>
+                    <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#courseDel-{{ course.id }}">
+                        <img src="{{ asset('icon/delete.svg') }}" alt="bouton supprimé" style="height: 20px;">
+                    </button>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#courseVisi-{{ course.id }}">
+                        <img src="{{ asset('icon/visibility.svg') }}" alt="bouton visibilité" style="height: 20px;">
+                    </button>
+                </td>
+                <td>{% if course.ispublished %}oui{% else %}non{% endif %}</td>
+            </tr>
+
+            <div class="modal fade" id="courseEdit-{{ course.id }}" tabindex="-1" aria-labelledby="#courseEdit-{{ course.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="postModalLabel-{{ course.id }}">
+                                Voulez-vous modifier "{{ course.name }}" ?
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ asset('admin/editCourse/' ~ course.id) }}" class="btn btn-info">Modifier</a>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="courseDel-{{ course.id }}" tabindex="-1" aria-labelledby="#courseDel-{{ course.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="postModalLabel-{{ course.id }}">
+                                Voulez-vous supprimer "{{ course.name }}" ?
+                                <p class="alert alert-warning">Une fois supprimer, il est impossible de le récupérer !</p>
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ asset('admin/delCourse/' ~ course.id) }}" class="btn btn-primary">Suprrimer</a>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="courseVisi-{{ course.id }}" tabindex="-1" aria-labelledby="#courseVisi-{{ course.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="postModalLabel-{{ course.id }}">
+                                Voulez-vous changer la visibilité de "{{ course.name }}" ?
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ asset('admin/changeVisibCourse/' ~ course.id) }}" class="btn btn-{% if course.ispublished %}danger{% else %}success{% endif %}">
+                                Mettre en {% if course.ispublished %}privé{% else %}publié{% endif %}
+                            </a>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

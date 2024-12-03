@@ -1,0 +1,36 @@
+{% block body %}
+    <div class="d-flex justify-content-between border-bottom bg-dark-subtle align-items-center">
+        <div>
+            <a href="{{ path('app_home') }}" class="m-2 btn btn-primary">Accueil</a>
+            <a href="{{ path('app_courses') }}" class="m-2 btn btn-secondary">Tous les cours</a>
+            <a href="{{ path('app_news') }}" class="m-2 btn btn-secondary">Tous les actualités</a>
+            <a href="{{ path('app_contact') }}" class="m-2 btn btn-secondary">Contact</a>
+        </div>
+
+        {% if app.user %}
+            <div class="dropdown">
+                <button class="d-flex gap-2 align-items-center btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="{{ asset('/image/avatar/' ~ app.user.image) }}" alt="" class="rounded-circle" style="height: 50px; width: 50px;">
+                    {{ app.user.firstname }} {{ app.user.lastname }}
+                </button>
+                <ul class="dropdown-menu">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li>
+                            <a href="{{ path('app_admin') }}" class="dropdown-item">
+                                Administration
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                    {% endif %}
+                    <li><a href="{{ path('app_logout') }}" class="m-2 btn btn-primary">logout</a></li>
+
+                </ul>
+            </div>
+        {% else %}
+            <div>
+                <a href="{{ path('app_login') }}" class="m-2 btn btn-primary">login</a>
+                <a href="{{ path('app_register') }}" class="m-2 btn btn-primary">register</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Actualités{% endblock %}
+
+{% block body %}
+    <h2>Actualités</h2>
+    <div class="row d-flex justify-content-center">
+        {% for post in posts %}
+            <div class="card mb-3 p-2">
+                <div class="row g-0">
+                    <div class="col-md-2">
+                        <img src="{{ asset('image/news/' ~ post.image) }}" class="img-fluid rounded" alt="Photo de profil">
+                    </div>
+                    <div class="col-md-10">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.name | capitalize }}</h5>
+                            <p class="card-text"><small class="text-muted">Posté le {{ post.createdat|date("d/m/Y") }}</small></p>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#postModal-{{ post.id }}">
+                                Voir plus
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="postModal-{{ post.id }}" tabindex="-1" aria-labelledby="postModalLabel-{{ post.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="postModalLabel-{{ post.id }}">{{ post.name|capitalize }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <h5 class="m-2">{{ post.createdat|date("d/m/Y") }}</h5>
+                        <div class="d-flex">
+                            <img src="{{ asset('image/news/' ~ post.image) }}"
+                                 alt="Image du cours"
+                                 style="width: 50%; height: auto; object-fit: cover;"
+                                 class="m-2 rounded">
+                            <div class="modal-body" style="width: 50%;">
+                                {{ post.content|u.truncate(150, '...', false) }}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ path('app_post', {id:post.id}) }}" class="btn btn-primary">Lire la suite</a>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="pt-5 d-flex justify-content-center">
+        {{ knp_pagination_render(posts) }}
+    </div>
+{% endblock %}
