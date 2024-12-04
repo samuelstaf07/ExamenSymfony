@@ -52,7 +52,7 @@ class AdminController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Le commentaire a bien été ajouté'
+                'Le cours a bien été ajouté'
             );
             return $this->redirectToRoute('app_admin');
         }

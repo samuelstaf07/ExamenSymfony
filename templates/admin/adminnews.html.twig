@@ -63,7 +63,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-footer">
-                            <a href="{{ asset('admin/delPost/' ~ post.id) }}" class="btn btn-primary">Suprrimer</a>
+                            <a href="{{ path('app_delpost', {id:post.id}) }}" class="btn btn-primary">Supprimer</a>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                         </div>
                     </div>

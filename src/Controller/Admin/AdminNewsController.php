@@ -24,13 +24,13 @@ class AdminNewsController extends AbstractController
                 'Le cours a bien été édité');
             return $this->redirectToRoute('app_admin');
         }
-        return $this->render('admin/editCourse.html.twig', [
+        return $this->render('admin/editPost.html.twig', [
             'news'=> $post,
             'form' => $form,
         ]);
     }
 
-    #[Route('/admin/delPoste/{id}', name: 'app_delpost')]
+    #[Route('/admin/delPost/{id}', name: 'app_delpost')]
     public function delPost(EntityManagerInterface $manager, Post $post): Response
     {
         $manager->remove($post);
@@ -48,7 +48,7 @@ class AdminNewsController extends AbstractController
         $manager->flush();
         $this->addFlash(
             'success',
-            'La visibilité du cours a bien été changé'
+            'La visibilité du post a bien été changé'
         );
         return $this->redirectToRoute('app_admin');
     }
