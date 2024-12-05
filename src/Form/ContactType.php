@@ -52,7 +52,7 @@ class ContactType extends AbstractType
                 'label' => 'Votre sujet',
                 'constraints' => [
                     new Assert\NotBlank(),
-                    new Assert\Length(['min' => 5, 'max' => 255]),
+                    new Assert\Length(['min' => 5, 'max' => 1000000]),
                 ],
             ])
             ->add('content', TextareaType::class, [

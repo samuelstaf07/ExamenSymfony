@@ -40,7 +40,7 @@ class CourseFormType extends AbstractType
                 'label' => 'Description complète',
                 'constraints' => [
                     new Assert\NotBlank(),
-                    new Assert\Length(['min' => 100]),
+                    new Assert\Length(['min' => 100, 'max' => 1000000]),
                 ],
             ])
             ->add('duration', TextType::class, [
@@ -63,6 +63,7 @@ class CourseFormType extends AbstractType
                 'allow_delete' => false,
                 'download_uri' => false,
                 'constraints' => [
+                    new Assert\NotBlank(),
                     new Assert\File([
                         'maxSize' => '5M',
                         'mimeTypes' => ['image/jpeg', 'image/png', 'image/gif'],
@@ -79,6 +80,7 @@ class CourseFormType extends AbstractType
                 'asset_helper' => true,
                 'attr' => ['accept' => '.pdf'],
                 'constraints' => [
+                    new Assert\NotBlank(),
                     new Assert\File([
                         'maxSize' => '10M',
                         'mimeTypes' => ['application/pdf'],
